@@ -13,8 +13,5 @@ namespace ProjetoMarte.Models
 
         public int EntradaY { get; set; }        
 
-        public List<SondasEntidade> ListaSondas { get; set; }
-
-
     }
 }
