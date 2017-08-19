@@ -53,15 +53,6 @@ namespace ProjetoMarte.Controllers
         {
             try
             {
-                #region Teste
-
-                var model = new CoordenadasModel()
-                {
-                    EntradaX = 5,
-                    EntradaY = 5
-                };
-
-                #endregion
 
                 var DirecaoAtual = "";
 
@@ -69,7 +60,7 @@ namespace ProjetoMarte.Controllers
                 foreach (var sonda in ListaSondas)
                 {
                     //Verifica se a posição está dentro do limite definido
-                    if (sonda.PosicaoInicialX > model.EntradaX || sonda.PosicaoInicialX > model.EntradaY)
+                    if (sonda.PosicaoInicialX > x || sonda.PosicaoInicialX > y)
                         throw new Exception("Posição de Sonda fora dos limites");
 
                     char[] m = sonda.Movimento.ToUpper().ToCharArray();
@@ -80,7 +71,7 @@ namespace ProjetoMarte.Controllers
                     foreach(char c in m)
                     {
                         //Verifica se a posição está dentro do limite definido
-                        if (sonda.PosicaoInicialX > model.EntradaX || sonda.PosicaoInicialX > model.EntradaY)
+                        if (sonda.PosicaoInicialX > x || sonda.PosicaoInicialX > y)
                             throw new Exception("Posição de Sonda fora dos limites");
 
                         //Executa cada movimento

@@ -37,40 +37,47 @@ function adicionarSonda() {
 
 function submit() {
 
-    ListaSondas = JSON.stringify({ 'ListaSondas': ListaSondas });
+    var x = document.getElementById("EntradaX");
+    var y = document.getElementById("EntradaY");
 
-    $.ajax({
-        contentType: 'application/json; charset=utf-8',
-        dataType: 'json',
-        type: 'POST',
-        url: "/Home/Salvar",
-        data: { ListaSondas, x: 5, y: 5 },
-        success: function (data) {
+    if (x.value != "" && y.value != "" && ListaSondas.length != 0) {
 
-            if (data.Sucesso === true) {
+        $.ajax({
+            contentType: 'application/json; charset=utf-8',
+            dataType: 'json',
+            type: 'POST',
+            url: "/Home/Salvar",
+            data: JSON.stringify({ 'ListaSondas': ListaSondas, 'x': $("#EntradaX").val(), 'y': $("#EntradaY").val() }),
+            success: function (data) {
 
-                var msg = "";
+                if (data.Sucesso === true) {
 
-                for (var i = 0; i < data.ListaSondas.length; i++) {
-                    msg = msg + "Posição da Sonda: " + "[" + (i + 1) + "]"
-                        + " " + data.ListaSondas[i].PosicaoInicialX
-                        + " " + data.ListaSondas[i].PosicaoInicialY
-                        + " " + data.ListaSondas[i].DirecaoInicial
-                        + "\n";
+                    var msg = "";
+
+                    for (var i = 0; i < data.ListaSondas.length; i++) {
+                        msg = msg + "Posição da Sonda: " + "[" + (i + 1) + "]"
+                            + " " + data.ListaSondas[i].PosicaoInicialX
+                            + " " + data.ListaSondas[i].PosicaoInicialY
+                            + " " + data.ListaSondas[i].DirecaoInicial
+                            + "\n";
+                    }
+
+                    window.alert(msg);
+
+                    window.location.href = '/Home/Index';
                 }
+                else {
+                    window.alert(data.Mensagem);
 
-                window.alert(msg);
+                    window.location.href = '/Home/Index';
+                }
+            },
+            error: function (jqXhr, textStatus, errorThrown) {
 
-                window.location.href = '/Home/Index';
             }
-            else {
-                window.alert(data.Mensagem);
-            }
-        },
-        error: function (jqXhr, textStatus, errorThrown) {
-
-        }
-    });
-
-
+        });
+    }
+    else {
+        alert("É necessário definir a malha e adicionar ao menos uma sonda");
+    }
 }
