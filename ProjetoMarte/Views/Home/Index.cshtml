@@ -1,7 +1,84 @@
-﻿@{
-    ViewBag.Title = "Home Page";
+﻿@model ProjetoMarte.Models.CoordenadasModel
+@{
+    ViewBag.Title = "Entrada";
 }
 
-<div >
-    <h1>Projeto Marte</h1>
-</div>
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <script src="@Url.Content("~/Scripts/jquery-1.10.2.js")" type="text/javascript"></script>
+    <script src="@Url.Content("~/Scripts/js/Formatacao.js")" type="text/javascript"></script>
+    <script src="@Url.Content("~/Scripts/js/Coordenadas.js")" type="text/javascript"></script>
+</head>
+<body>
+    <script>
+        $(function () {
+            carregarJs();
+        });
+    </script>
+
+    <div id="Entrada" class="container-fluid">
+
+        @using (Html.BeginForm(null, null, FormMethod.Post, new { id = "formEntrada", name = "formEntrada" }))
+        {
+
+            <h3 class="page-header">Definir o tamanho da malha</h3>
+            <div class="row">
+                <div class="form-group col-md-2">
+                    <label>Eixo X</label>
+                    @Html.TextBoxFor(model => model.EntradaX, new { @class = "form-control", onkeyup = "somenteNumeros(this);", placeholder = "Digite o valor", required = "required" })
+
+                </div>
+                <div class="form-group col-md-2">
+                    <label>Eixo Y</label>
+                    @Html.TextBoxFor(model => model.EntradaY, new { @class = "form-control", onkeyup = "somenteNumeros(this);", placeholder = "Digite o valor", required = "required" })
+                </div>
+            </div>
+
+
+            <h3 class="page-header">Lista de Sondas</h3>
+
+            <div class="row">
+                <div class="form-group col-md-2">
+                    <label>Posição Inicial X</label>
+                    @Html.TextBoxFor(model => model.PosicaoInicialX, new { @class = "form-control", onkeyup = "somenteNumeros(this);", placeholder = "Digite o valor" })
+
+                </div>
+                <div class="form-group col-md-2">
+                    <label>Posição Inicial Y</label>
+                    @Html.TextBoxFor(model => model.PosicaoInicialY, new { @class = "form-control", onkeyup = "somenteNumeros(this);", placeholder = "Digite o valor"})
+                </div>
+
+                <div class="form-group col-md-2">
+                    <label>Direção Inicial</label>
+                    @Html.TextBoxFor(model => model.DirecaoInicial, new { @class = "form-control", onkeyup = "posicao(this);", placeholder = "Digite a posição inicial" })
+                </div>
+
+
+                <div class="form-group col-md-3">
+                    <label>Sequência de movimento</label>
+                    @Html.TextBoxFor(model => model.Movimento, new { @class = "form-control", onkeyup = "movimentos(this);", placeholder = "Digite movimento"})
+                </div>
+
+                <div class="form-group col-md-2">
+                    <br />
+                    @Html.ActionLink("Adicionar nova sonda", "", "", new { id = "botaoAdicionar", @class = "btn btn-success", onclick = "javascript:adicionarSonda();" })
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="col-md-12">
+                    <input type="submit" name="submit" id="submit" value="Salvar" class="btn btn-info" />
+                    @Html.ActionLink("Cancelar", "Index", "Home", null, new { @class = "btn btn-default" })
+                </div>
+            </div>
+
+        }
+
+    </div>
+
+</body>
+</html>
