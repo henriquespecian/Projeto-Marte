@@ -49,49 +49,41 @@ namespace ProjetoMarte.Controllers
             return direcaoAtual;
         }
 
-        public JsonResult Salvar(CoordenadasModel model)
+        public JsonResult Salvar(List<SondasEntidade> ListaSondas, int x, int y)
         {
             try
             {
-                var a = new SondasEntidade
+                #region Teste
+
+                var model = new CoordenadasModel()
                 {
-                    PosicaoInicialX = 1,
-                    PosicaoInicialY = 2,
-                    DirecaoInicial = "N",
-                    Movimento = "LMLMLMLMM"
+                    EntradaX = 5,
+                    EntradaY = 5
                 };
 
-                var d = new SondasEntidade
-                {
-                    PosicaoInicialX = 3,
-                    PosicaoInicialY = 3,
-                    DirecaoInicial = "E",
-                    Movimento = "MMRMMRMRRM"
-                };
-
-                model.ListaSondas = new List<SondasEntidade>();
-                model.ListaSondas.Add(a);
-                model.ListaSondas.Add(d);
+                #endregion
 
                 var DirecaoAtual = "";
 
-                foreach (var sonda in model.ListaSondas)
+                //Percorre as sondas
+                foreach (var sonda in ListaSondas)
                 {
-
+                    //Verifica se a posição está dentro do limite definido
                     if (sonda.PosicaoInicialX > model.EntradaX || sonda.PosicaoInicialX > model.EntradaY)
                         throw new Exception("Posição de Sonda fora dos limites");
 
-                    char[] m = sonda.Movimento.ToCharArray();
+                    char[] m = sonda.Movimento.ToUpper().ToCharArray();
 
-                    DirecaoAtual = sonda.DirecaoInicial;
+                    DirecaoAtual = sonda.DirecaoInicial.ToUpper();
 
-                    //Verificar e executar cada movimentos
+                    //Executa os movimentos
                     foreach(char c in m)
                     {
+                        //Verifica se a posição está dentro do limite definido
                         if (sonda.PosicaoInicialX > model.EntradaX || sonda.PosicaoInicialX > model.EntradaY)
                             throw new Exception("Posição de Sonda fora dos limites");
 
-                        //Verificar se essa posição existe
+                        //Executa cada movimento
                         switch (c)
                         {
                             case 'L':
@@ -129,11 +121,11 @@ namespace ProjetoMarte.Controllers
                     sonda.DirecaoInicial = DirecaoAtual;
                 }               
 
-                return Json(new { Sucesso = true, Mensagem = model.ListaSondas });
+                return Json(new { Sucesso = true, Mensagem = "", ListaSondas = ListaSondas });
             }
             catch (Exception ex)
             {
-                return Json(new { Sucesso = true, Mensagem = ex.Message });
+                return Json(new { Sucesso = false, Mensagem = ex.Message });
             }            
         }
     }

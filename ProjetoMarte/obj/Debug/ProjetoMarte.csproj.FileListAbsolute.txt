@@ -131,3 +131,4 @@ C:\Users\Henri\Documents\Visual Studio 2017\Projects\Projeto-Marte\ProjetoMarte\
 C:\Users\Henri\Documents\Visual Studio 2017\Projects\Projeto-Marte\ProjetoMarte\bin\Microsoft.AI.Web.xml
 C:\Users\Henri\Documents\Visual Studio 2017\Projects\Projeto-Marte\ProjetoMarte\obj\Debug\ProjetoMarte.dll
 C:\Users\Henri\Documents\Visual Studio 2017\Projects\Projeto-Marte\ProjetoMarte\obj\Debug\ProjetoMarte.pdb
+C:\Users\Henri\Documents\Visual Studio 2017\Projects\Projeto-Marte\ProjetoMarte\obj\Debug\ProjetoMarte.csprojResolveAssemblyReference.cache

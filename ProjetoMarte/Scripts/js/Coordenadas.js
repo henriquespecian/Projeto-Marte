@@ -1,74 +1,76 @@
-﻿//var ListaSondas = [];
+﻿var ListaSondas = [];
 
-//var j = 0;
+function Sondas(PosicaoInicialX, PosicaoInicialY, DirecaoInicial, Movimento) {
+    this.PosicaoInicialX = PosicaoInicialX;
+    this.PosicaoInicialY = PosicaoInicialY;
+    this.DirecaoInicial = DirecaoInicial;
+    this.Movimento = Movimento;
+}
 
+function adicionarSonda() {
 
-//function Sondas(PosicaoInicialX, PosicaoInicialY, CodSondasImplantadas, Movimento) {
-//    this.PosicaoInicialX = PosicaoInicialX;
-//    this.PosicaoInicialY = PosicaoInicialY;
-//    this.CodSondasImplantadas = CodSondasImplantadas;
-//    this.Movimento = Movimento;
-//}
-
-//function adicionarSonda() {
-
-//    var s = new Sondas(
-//        $("#PosicaoInicialX").val(), 
-//        $("#PosicaoInicialY").val(),
-//        $("#CodSondasImplantadas").val(),
-//        $("#Movimento").val()
-//    );  
-
-//    ListaSondas.push(s);  
-
-//    $("#ListaSondas").val(ListaSondas);
-
-//    console.log(ListaSondas);
-//    console.log(j);
-//    console.log(ListaSondas.length);
-
-//    j++;
-
-//}
+    var x = document.getElementById("PosicaoInicialX");
+    var y = document.getElementById("PosicaoInicialY");
+    var d = document.getElementById("DirecaoInicial");
+    var m = document.getElementById("Movimento");
 
 
+    if (x.value != "" && y.value != "" && d.value != "" && m.value != "") {
 
-function carregarJs() {
-    $('#formEntrada').submit(function (ev) {
+        var s = new Sondas(x.value, y.value, d.value, m.value);
 
-        var model = $('#formEntrada').serialize();
+        ListaSondas.push(s);
 
-        //adicionarSonda();
-        //adicionarSonda();
-        //adicionarSonda();
+        x.value = "";
+        y.value = "";
+        d.value = "";
+        m.value = "";
 
-        //model.ListaSondas = ListaSondas;
 
-        //console.log(model.ListaSondas);
+        alert("Sonda inserida com sucesso!");
+    }
+    else {
+        alert('É necessário preencher todos os campos da sonda')
+    }
+}
 
-        $.ajax({
-            url: "/Home/Salvar",
-            type: 'POST',
-            data: model,
-            dataType: 'JSON',
-            success: function (data) {
 
-                if (data.Sucesso === true) {
+function submit() {
 
-                    window.alert(data.Mensagem);
-                    //window.location.href = '/Bebida/Index';
+    ListaSondas = JSON.stringify({ 'ListaSondas': ListaSondas });
+
+    $.ajax({
+        contentType: 'application/json; charset=utf-8',
+        dataType: 'json',
+        type: 'POST',
+        url: "/Home/Salvar",
+        data: { ListaSondas, x: 5, y: 5 },
+        success: function (data) {
+
+            if (data.Sucesso === true) {
+
+                var msg = "";
+
+                for (var i = 0; i < data.ListaSondas.length; i++) {
+                    msg = msg + "Posição da Sonda: " + "[" + (i + 1) + "]"
+                        + " " + data.ListaSondas[i].PosicaoInicialX
+                        + " " + data.ListaSondas[i].PosicaoInicialY
+                        + " " + data.ListaSondas[i].DirecaoInicial
+                        + "\n";
                 }
-                else {
-                    window.alert("Ocorreu um erro no cadastro");
-                    //window.location.href = '/Bebida/Index';
 
-                }
-            },
-            error: function (jqXhr, textStatus, errorThrown) {
+                window.alert(msg);
 
+                window.location.href = '/Home/Index';
             }
-        });
+            else {
+                window.alert(data.Mensagem);
+            }
+        },
+        error: function (jqXhr, textStatus, errorThrown) {
 
-        ev.preventDefault();
-    });    
+        }
+    });
+
+
 }
